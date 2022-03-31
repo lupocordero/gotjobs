@@ -6,8 +6,13 @@ const app = express()
 
 app.use(express.static('public'))
 
-app.get('/jobs', async (req, res) => {
-    const jobs = await getJobs()
+app.get('/jobs/ux', async (req, res) => {
+    const jobs = await getJobs.getUXJobs()
+    res.json(jobs)
+})
+
+app.get('/jobs/wd', async (req, res) => {
+    const jobs = await getJobs.getWDJobs()
     res.json(jobs)
 })
 
