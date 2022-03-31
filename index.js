@@ -1,5 +1,5 @@
-const express = require('express');
-const getJobs = require('./services/notion')
+import express from 'express';
+import {getJobs} from './services/notion.js'
 const PORT = process.env.PORT || 5000
 
 const app = express()
