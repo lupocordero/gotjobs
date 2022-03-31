@@ -1,24 +1,14 @@
-const dotenv = require('dotenv').config();
-const { Client } = require('@notionhq/client')
+const express = require('express');
+const getJobs = require('./services/notion')
+const PORT = process.env.PORT || 5000
 
-// Init client
+const app = express()
 
-const notion = new Client({
-    auth: process.env.NOTION_TOKEN
+app.use(express.static('public'))
+
+app.get('/jobs', async (req, res) => {
+    const jobs = await getJobs()
+    res.json(jobs)
 })
 
-const getJobs = async () => {
-    const response = await notion.search({
-      filter: {
-        'value': 'database',
-        'property': 'object'
-      },
-      sort: {
-        direction: 'descending',
-        timestamp: 'last_edited_time',
-      },
-    });
-    console.log(response.results[0].title[0].plain_text)
-}
-
-getJobs()
+app.listen(PORT, console.log(`Server started on port ${PORT}`))
